@@ -44,4 +44,65 @@ const agendaItemIcons = {
   other: 'cal-sm',
 };
 
+const fetchMeetup = () =>  
+    fetch(API_URL+'/meetups/'+MEETUP_ID).then((res) => res.json());
+
 // Требуется создать Vue приложение
+new Vue({
+  data() {
+    return {
+      rawMeetup: null
+    }
+  },
+  
+  mounted() {    
+    fetchMeetup().then((meetup) => {     
+      this.rawMeetup = meetup;
+    });
+  },
+
+  ///*** Почему-то не работает функция map ниже ***///
+  computed: {    
+    meetups() {
+      if (!this.rawMeetup) {
+        return null;
+      }
+      return this.rawMeetup;
+      
+      /*return this.rawMeetup.map((meetup) => ({
+        ...meetup,
+        date: new Date(meetup.date),
+        cover: meetup.imageId && `https://course-vue.javascript.ru/api/images/${meetup.imageId}`,
+        coverStyle: meetup.imageId && { '--bg-url': `url(https://course-vue.javascript.ru/api/images/${meetup.imageId})` },
+        localeDate: new Date(meetup.date).toLocaleString(navigator.language, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+        dateOnlyString: new Date(meetup.date).toISOString().split('T')[0],
+      }));*/
+
+    },
+
+    filteredDate() {     
+      if (!this.meetups) {
+        return null;
+      }
+      return new Date(this.meetups.date).toLocaleString(navigator.language, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    },
+
+    filteredImage() {
+      if (!this.meetups) {
+        return null;
+      }      
+      if(this.meetups.imageId != null) {
+        return '--bg-url: url('+getImageUrlByImageId(this.meetups.imageId)+')';
+      }
+    }   
+
+  }
+}).$mount('#app');

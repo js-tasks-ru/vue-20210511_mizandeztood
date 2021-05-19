@@ -44,4 +44,61 @@ const agendaItemIcons = {
   other: 'cal-sm',
 };
 
+const fetchMeetup = () =>  
+    fetch(API_URL+'/meetups/'+MEETUP_ID).then((res) => res.json());
+
 // Требуется создать Vue приложение
+new Vue({
+  data() {
+    return {
+      rawMeetup: null
+    }
+  },
+  
+  mounted() {    
+    fetchMeetup().then((meetup) => {     
+      this.rawMeetup = meetup;
+    });
+  },
+
+  ///*** Почему-то не работает функция map ниже ***///
+  computed: {    
+    meetups() {
+      if (!this.rawMeetup) {
+        return null;
+      }
+      return this.rawMeetup; 
+    },
+
+    modifiedDate() {     
+      if (!this.meetups) {
+        return null;
+      }
+      return new Date(this.meetups.date).toLocaleString(navigator.language, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    },
+
+    modifiedImage() {
+      if (!this.meetups) {
+        return null;
+      }      
+      if(this.meetups.imageId != null) {
+        return '--bg-url: url('+getImageUrlByImageId(this.meetups.imageId)+')';
+      }
+    },  
+
+    schedules(){
+      return this.rawMeetup.agenda.map((schedules) => ({
+        ...schedules,
+        //type: agendaItemDefaultTitles[schedules.type],
+        title: schedules.title===null ? agendaItemDefaultTitles[schedules.type] : schedules.title,
+        icon: agendaItemIcons[schedules.type]
+
+      }));
+    }
+
+  }
+}).$mount('#app');

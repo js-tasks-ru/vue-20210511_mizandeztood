@@ -10,29 +10,29 @@
 </head>
 <body>
 <div id="app">
-  <div>
-    <div class="meetup-cover">
-      <h1 class="meetup-cover__title">Название митапа</h1>
+  <div v-if="rawMeetup">
+    <div class="meetup-cover" :style="modifiedImage">
+      <h1 class="meetup-cover__title">{{meetups.title}}</h1>
     </div>
 
     <div class="container">
       <div class="meetup">
         <div class="meetup__content">
           <h3>Описание</h3>
-          <p class="meetup-description">Описание митапа</p>
+          <p class="meetup-description">{{meetups.description}}</p>
 
           <h3>Программа</h3>
-          <p class="meetup-agenda__empty">Программа пока пуста, но когда-нибудь в ней обязательно что-нибудь появится!</p>
-          <div class="meetup-agenda">
-            <div class="meetup-agenda__item">
+          <p v-if="!rawMeetup.agenda.length" class="meetup-agenda__empty">Программа пока пуста, но когда-нибудь в ней обязательно что-нибудь появится!</p>
+          <div v-else class="meetup-agenda">
+            <div class="meetup-agenda__item" v-for="schedule in schedules">
               <div class="meetup-agenda__item-col">
-                <img class="icon" alt="icon" src="/assets/icons/icon-cal-sm.svg" />
+                <img class="icon" alt="icon" :src="'/assets/icons/icon-'+schedule.icon+'.svg'" />
               </div>
-              <div class="meetup-agenda__item-col">00:00 - 00:00</div>
+              <div class="meetup-agenda__item-col">{{schedule.startsAt}} - {{schedule.endsAt}}</div>
               <div class="meetup-agenda__item-col">
-                <h5 class="meetup-agenda__title">Название доклада</h5>
-                <p><span>Докладчик</span><span class="meetup-agenda__dot"></span><span class="meetup-agenda__lang">RU</span></p>
-                <p>Описание доклада</p>
+                <h5 class="meetup-agenda__title">{{schedule.title}}</h5>
+                <p v-if="schedule.type === 'talk'"><span>{{schedule.speaker}}</span><span class="meetup-agenda__dot"></span><span class="meetup-agenda__lang">{{schedule.language}}</span></p>
+                <p v-if="schedule.description">{{schedule.description}}</p>
               </div>
             </div>
 
@@ -43,15 +43,15 @@
           <ul class="info-list">
             <li>
               <img class="icon info-list__icon" alt="icon" src="/assets/icons/icon-user.svg" />
-              Организатор
+              {{meetups.organizer}}
             </li>
             <li>
               <img class="icon info-list__icon" alt="icon" src="/assets/icons/icon-map.svg" />
-              Место
+              {{meetups.place}}
             </li>
             <li>
               <img class="icon info-list__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
-              <time datetime="2020-02-31">31 фев. 2020</time>
+              <time datetime="2020-02-31">{{modifiedDate}}</time>
             </li>
           </ul>
         </div>

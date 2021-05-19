@@ -67,24 +67,10 @@ new Vue({
       if (!this.rawMeetup) {
         return null;
       }
-      return this.rawMeetup;
-      
-      /*return this.rawMeetup.map((meetup) => ({
-        ...meetup,
-        date: new Date(meetup.date),
-        cover: meetup.imageId && `https://course-vue.javascript.ru/api/images/${meetup.imageId}`,
-        coverStyle: meetup.imageId && { '--bg-url': `url(https://course-vue.javascript.ru/api/images/${meetup.imageId})` },
-        localeDate: new Date(meetup.date).toLocaleString(navigator.language, {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }),
-        dateOnlyString: new Date(meetup.date).toISOString().split('T')[0],
-      }));*/
-
+      return this.rawMeetup; 
     },
 
-    filteredDate() {     
+    modifiedDate() {     
       if (!this.meetups) {
         return null;
       }
@@ -95,14 +81,24 @@ new Vue({
       });
     },
 
-    filteredImage() {
+    modifiedImage() {
       if (!this.meetups) {
         return null;
       }      
       if(this.meetups.imageId != null) {
         return '--bg-url: url('+getImageUrlByImageId(this.meetups.imageId)+')';
       }
-    }   
+    },  
+
+    schedules(){
+      return this.rawMeetup.agenda.map((schedules) => ({
+        ...schedules,
+        //type: agendaItemDefaultTitles[schedules.type],
+        title: schedules.title===null ? agendaItemDefaultTitles[schedules.type] : schedules.title,
+        icon: agendaItemIcons[schedules.type]
+
+      }));
+    }
 
   }
 }).$mount('#app');

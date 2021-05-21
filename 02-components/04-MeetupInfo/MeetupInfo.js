@@ -13,7 +13,15 @@ export default {
       type: Date,
       required: true
     },
-
+  },
+  computed: {
+    nDate(){
+      return this.date.toLocaleString(navigator.language, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    }
   },
   template: `
     <ul class="info-list">
@@ -27,7 +35,7 @@ export default {
       </li>
       <li>
         <img class="icon info-list__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
-        <time datetime="2020-01-01">{{date}}</time>
+        <time datetime="2020-01-01">{{nDate}}</time>
       </li>
     </ul>`,
 };

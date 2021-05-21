@@ -12,7 +12,7 @@ const MeetupCover = {
   },
   computed: {
     nImage(){
-      return this.link===null ? "--bg-url: url('https://course-vue.javascript.ru/api/images/2')" : "--bg-url: url('"+this.link+"')"      
+      return this.link===null ? "" : "--bg-url: url('"+this.link+"')"      
     }
   },
   template: `

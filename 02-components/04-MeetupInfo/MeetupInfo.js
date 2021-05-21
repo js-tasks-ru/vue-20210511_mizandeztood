@@ -21,6 +21,12 @@ export default {
         month: 'long',
         day: 'numeric',
       })
+    },
+    dtDate(){
+      const year = this.date.getFullYear();
+      const month = ('0' + (this.date.getMonth()+1)).slice(-2);
+      const day = this.date.getDate();
+      return year + "-" +month + "-" + day
     }
   },
   template: `
@@ -35,7 +41,7 @@ export default {
       </li>
       <li>
         <img class="icon info-list__icon" alt="icon" src="/assets/icons/icon-cal-lg.svg" />
-        <time datetime="2020-01-01">{{nDate}}</time>
+        <time :datetime="dtDate">{{nDate}}</time>
       </li>
     </ul>`,
 };

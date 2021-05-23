@@ -1,5 +1,9 @@
 export default {
   name: 'CounterButton',
+  model: {
+    prop: 'count',
+    event: 'increment',
+  },
   props: {
     count: {
       type: Number,
@@ -18,5 +22,5 @@ export default {
   // Шаблон лучше держать максимально простым, а логику выносить в методы
 
   // Шаблон потребуется отредактировать
-  template: '<button type="button" :value="count" @click="increment(Number($event.target.value))">{{ count }}</button>',
+  template: '<button type="button" @click="increment(count)">{{ count }}</button>',
 };

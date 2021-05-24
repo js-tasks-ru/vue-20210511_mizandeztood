@@ -4,9 +4,7 @@ import { MEETUP_ID, fetchMeetup } from './data.js';
 const MeetupPage = {
   name: 'MeetupPage',
   components: {
-    MeetupView,
-    MEETUP_ID,
-    fetchMeetup
+    MeetupView
   },
   data() {
     return {

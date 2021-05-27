@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import CounterButton from './components/CounterButton';
+import CounterButton from './components/CounterButton.vue';
 
 export default {
   name: 'App',

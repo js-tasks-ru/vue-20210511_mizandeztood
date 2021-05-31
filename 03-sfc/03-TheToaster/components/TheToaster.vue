@@ -19,16 +19,21 @@
 <script>
 import AppIcon from './AppIcon';
 
-// const DELAY = 5000;
-
+//const DELAY = 5000;
 export default {
   name: 'TheToaster',
-
+ 
   components: { AppIcon },
-
+ 
   methods: {
-    // error(message) {},
-    // success(message) {},
+    error(message) {
+      console.log(message);
+      return message;
+    },
+    success(message) {
+      console.log(message);
+      return message;
+    }
   },
 };
 </script>

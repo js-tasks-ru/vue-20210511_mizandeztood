@@ -1,23 +1,13 @@
 <template>
   <div class="toasts">
-    <div class="toast toast_success">
-      <app-icon icon="check-circle" />
-      <span>Success 1</span>
-    </div>
-    <div class="toast toast_success">
-      <app-icon icon="check-circle" />
-      <span>Success 2</span>
-    </div>
-    <!-- ... -->
-    <div class="toast toast_error">
-      <app-icon icon="alert-circle" />
-      <span>Error 1</span>
-    </div>
+    <app-toast v-for="toast in toasts" :key="toast.id" :type="toast.type">
+      {{ toast.message }}
+    </app-toast>
   </div>
 </template>
 
 <script>
-import AppIcon from './AppIcon';
+import AppToast from './AppToast';
 
 //const DELAY = 5000;
 export default {
@@ -48,36 +38,6 @@ export default {
   justify-content: flex-end;
   white-space: pre-wrap;
   z-index: 999;
-}
-
-.toast {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px;
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  font-size: 18px;
-  line-height: 28px;
-  width: auto;
-}
-
-.toast + .toast {
-  margin-top: 20px;
-}
-
-.toast > .icon {
-  margin-right: 12px;
-}
-
-.toast.toast_success {
-  color: var(--green);
-}
-
-.toast.toast_error {
-  color: var(--red);
 }
 
 @media all and (min-width: 992px) {

@@ -1,70 +1,80 @@
 <template>
-  <div :class="['dropdown', {show: isShow}]">
-    <button type="button" class="button dropdown__toggle dropdown__toggle_icon" @click="upchange">
-      <app-icon v-if="options[0].icon" :icon="options[0].icon" />
-      {{title}} - {{valuee}}
+  <div class="dropdown" :class="{ show: isOpen }">
+    <button
+      type="button"
+      class="button dropdown__toggle"
+      :class="{ dropdown__toggle_icon: hasIcons }"
+      @click="toggleOpen"
+    >
+      <app-icon v-if="selected && selected.icon" :icon="selected.icon" />
+      <span>{{ buttonTitle }}</span>
     </button>
 
-    <div :class="['dropdown__menu', {show: isShow}]">
-      <button v-for="(option, index) in options" :key="index" @click="change(option.value)" class="dropdown__item dropdown__item_icon" type="button">
+    <div class="dropdown__menu" :class="{ show: isOpen }">
+      <button
+        v-for="option in options"
+        :key="option.value"
+        class="dropdown__item"
+        :class="{ dropdown__item_icon: hasIcons }"
+        type="button"
+        @click="select(option)"
+      >
         <app-icon v-if="option.icon" :icon="option.icon" />
-        {{option.text}}
+        {{ option.text }}
       </button>
-      <!--button class="dropdown__item dropdown__item_icon" type="button">
-        <app-icon icon="coffee" />
-        два
-      </button-->
-      <!-- ... -->
     </div>
   </div>
 </template>
 
 <script>
 import AppIcon from './AppIcon';
-
 export default {
   name: 'DropdownButton',
   components: { AppIcon },
-  data(){
-    return {
-      valuee: '',
-      isShow: false
-    }
-  },
   model: {
-      prop: 'valueee',
-      event: 'change',
-    },
+    prop: 'value',
+    event: 'change',
+  },
   props: {
-    title: {
-      type: String,
-      required: true
-    },
     options: {
       type: Array,
-      required: true
+      required: true,
+      validator: (options) =>
+        options.every(
+          (option) => typeof option === 'object' && option !== null && 'value' in option && 'text' in option,
+        ),
     },
-    value: {
-      type: String
-    }
+    value: {},
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      isOpen: false,
+    };
+  },
+  computed: {
+    selected() {
+      return this.options.find((option) => option.value === this.value);
+    },
+    hasIcons() {
+      return this.options.some((option) => option.icon);
+    },
+    buttonTitle() {
+      return this.selected ? `${this.title} - ${this.selected.text}` : this.title;
+    },
   },
   methods: {
-    change(vl) {
-      this.isShow = !this.isShow;
-      this.$emit('change', vl);
-      console.log(vl);
-      return this.valueee=vl
+    toggleOpen() {
+      this.isOpen = !this.isOpen;
     },
-    changeee(val) {
-      this.isShow = !this.isShow;
-      //console.log(this.isShow);
-      return this.valuee=val
+    select(option) {
+      this.isOpen = false;
+      this.$emit('change', option.value);
     },
-    upchange(){
-      return this.isShow = !this.isShow;
-    }
-  }
-
+  },
 };
 </script>
 
@@ -78,55 +88,21 @@ export default {
   color: initial;
   text-align: center;
   border: 4px solid transparent;
-  transition: .2s all;
+  transition: 0.2s all;
   outline: none;
   box-shadow: none;
   background-color: transparent;
   cursor: pointer;
   text-decoration: none;
 }
-
 .button.button_block {
   display: block;
   width: 100%;
-}
-
-.button.button_primary {
-  background-color: var(--blue);
-  border-color: var(--blue);
-  color: var(--white);
-}
-
-.button.button_primary:hover {
-  background-color: var(--blue-light);
-  border-color: var(--blue-light);
-  color: var(--blue);
-}
-
-.button.button_secondary {
-  background-color: var(--white);
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.button.button_secondary:hover {
-  border-color: var(--blue-light);
-}
-
-.button.button_danger {
-  background-color: var(--white);
-  border-color: var(--red);
-  color: var(--red);
-}
-
-.button.button_danger:hover {
-  border-color: var(--red-light);
 }
 .dropdown {
   position: relative;
   display: inline-block;
 }
-
 .button.dropdown__toggle {
   border: 2px solid var(--blue-light);
   position: relative;
@@ -136,43 +112,37 @@ export default {
   padding-right: 56px;
   font-weight: 500;
 }
-
 .button.dropdown__toggle:after {
   content: '';
   position: absolute;
   top: 15px;
   right: 16px;
   transform: none;
-  background: url('/assets/icons/icon-chevron-down.svg') no-repeat;
+  background: url('~@/assets/icons/icon-chevron-down.svg') no-repeat;
   background-size: cover;
   display: block;
   width: 24px;
   height: 24px;
-  transition: .2s transform;
+  transition: 0.2s transform;
 }
-
 .button.dropdown__toggle.dropdown__toggle_icon {
   padding-left: 56px;
 }
-
 .dropdown__toggle_icon .icon {
   position: absolute;
   top: 50%;
   left: 16px;
   transform: translate(0, -50%);
 }
-
 .show > .button.dropdown__toggle {
   border-color: var(--blue);
   border-bottom-color: transparent;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-
 .show > .button.dropdown__toggle:after {
   transform: rotate(180deg);
 }
-
 .dropdown__menu {
   margin: 0;
   width: 100%;
@@ -187,7 +157,6 @@ export default {
   border-top: none;
   overflow: hidden;
 }
-
 .dropdown__menu.show {
   display: flex;
   position: absolute;
@@ -198,7 +167,6 @@ export default {
   right: auto;
   bottom: auto;
 }
-
 .dropdown__item {
   padding: 8px 16px;
   font-weight: 500;
@@ -210,17 +178,14 @@ export default {
   cursor: pointer;
   text-align: left;
 }
-
 .dropdown__item:hover,
 .dropdown__item:focus {
   background-color: var(--grey-light);
 }
-
 .dropdown__item.dropdown__item_icon {
   padding-left: 56px;
   position: relative;
 }
-
 .dropdown__item.dropdown__item_icon > .icon {
   position: absolute;
   top: 50%;

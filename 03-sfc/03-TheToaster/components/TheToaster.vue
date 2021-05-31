@@ -8,22 +8,32 @@
 
 <script>
 import AppToast from './AppToast';
-
-//const DELAY = 5000;
+const DELAY = 5000;
 export default {
   name: 'TheToaster',
- 
-  components: { AppIcon },
- 
+  components: { AppToast },
+  data() {
+    return {
+      toasts: [],
+    };
+  },
   methods: {
     error(message) {
-      console.log(message);
-      return message;
+      this.show('error', message);
     },
     success(message) {
-      console.log(message);
-      return message;
-    }
+      this.show('success', message);
+    },
+    show(type, message) {
+      const toast = { type, message };
+      toast.id = setTimeout(() => {
+        const idToDelete = this.toasts.indexOf(toast);
+        if (idToDelete !== -1) {
+          this.toasts.splice(this.toasts.indexOf(toast), 1);
+        }
+      }, DELAY);
+      this.toasts.push(toast);
+    },
   },
 };
 </script>
@@ -39,7 +49,6 @@ export default {
   white-space: pre-wrap;
   z-index: 999;
 }
-
 @media all and (min-width: 992px) {
   .toasts {
     bottom: 72px;

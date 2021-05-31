@@ -6,7 +6,7 @@
     </button>
 
     <div :class="['dropdown__menu', {show: isShow}]">
-      <button v-for="(option, index) in options" :key="index" @click="changeee(option.value)" class="dropdown__item dropdown__item_icon" type="button">
+      <button v-for="(option, index) in options" :key="index" @click="change(option.value)" class="dropdown__item dropdown__item_icon" type="button">
         <app-icon v-if="option.icon" :icon="option.icon" />
         {{option.text}}
       </button>
@@ -33,7 +33,7 @@ export default {
   },
   model: {
       prop: 'valueee',
-      event: 'changeee',
+      event: 'change',
     },
   props: {
     title: {
@@ -49,12 +49,13 @@ export default {
     }
   },
   methods: {
-    changeee(vl) {
+    change(vl) {
       this.isShow = !this.isShow;
-      this.$emit('changeee', vl);
+      this.$emit('change', vl);
       console.log(vl);
+      return this.valueee=vl
     },
-    change(val) {
+    changeee(val) {
       this.isShow = !this.isShow;
       //console.log(this.isShow);
       return this.valuee=val

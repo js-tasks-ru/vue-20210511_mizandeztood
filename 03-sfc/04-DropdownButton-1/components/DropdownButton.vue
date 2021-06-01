@@ -28,17 +28,13 @@
 
 <script>
 import AppIcon from './AppIcon';
-
 export default {
   name: 'DropdownButton',
-
   components: { AppIcon },
-
   model: {
     prop: 'value',
     event: 'change',
   },
-
   props: {
     options: {
       type: Array,
@@ -48,39 +44,32 @@ export default {
           (option) => typeof option === 'object' && option !== null && 'value' in option && 'text' in option,
         ),
     },
-
     value: {},
     title: {
       type: String,
       required: true,
     },
   },
-
   data() {
     return {
       isOpen: false,
     };
   },
-
   computed: {
     selected() {
       return this.options.find((option) => option.value === this.value);
     },
-
     hasIcons() {
       return this.options.some((option) => option.icon);
     },
-
     buttonTitle() {
       return this.selected ? `${this.title} - ${this.selected.text}` : this.title;
     },
   },
-
   methods: {
     toggleOpen() {
       this.isOpen = !this.isOpen;
     },
-
     select(option) {
       this.isOpen = false;
       this.$emit('change', option.value);
@@ -106,17 +95,14 @@ export default {
   cursor: pointer;
   text-decoration: none;
 }
-
 .button.button_block {
   display: block;
   width: 100%;
 }
-
 .dropdown {
   position: relative;
   display: inline-block;
 }
-
 .button.dropdown__toggle {
   border: 2px solid var(--blue-light);
   position: relative;
@@ -126,7 +112,6 @@ export default {
   padding-right: 56px;
   font-weight: 500;
 }
-
 .button.dropdown__toggle:after {
   content: '';
   position: absolute;
@@ -140,29 +125,24 @@ export default {
   height: 24px;
   transition: 0.2s transform;
 }
-
 .button.dropdown__toggle.dropdown__toggle_icon {
   padding-left: 56px;
 }
-
 .dropdown__toggle_icon .icon {
   position: absolute;
   top: 50%;
   left: 16px;
   transform: translate(0, -50%);
 }
-
 .show > .button.dropdown__toggle {
   border-color: var(--blue);
   border-bottom-color: transparent;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-
 .show > .button.dropdown__toggle:after {
   transform: rotate(180deg);
 }
-
 .dropdown__menu {
   margin: 0;
   width: 100%;
@@ -177,7 +157,6 @@ export default {
   border-top: none;
   overflow: hidden;
 }
-
 .dropdown__menu.show {
   display: flex;
   position: absolute;
@@ -188,7 +167,6 @@ export default {
   right: auto;
   bottom: auto;
 }
-
 .dropdown__item {
   padding: 8px 16px;
   font-weight: 500;
@@ -200,17 +178,14 @@ export default {
   cursor: pointer;
   text-align: left;
 }
-
 .dropdown__item:hover,
 .dropdown__item:focus {
   background-color: var(--grey-light);
 }
-
 .dropdown__item.dropdown__item_icon {
   padding-left: 56px;
   position: relative;
 }
-
 .dropdown__item.dropdown__item_icon > .icon {
   position: absolute;
   top: 50%;

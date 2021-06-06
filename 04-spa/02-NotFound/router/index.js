@@ -2,13 +2,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import PageA from '../views/PageA';
 import PageB from '../views/PageB';
-// import NotFoundPage from '../views/NotFoundPage';
+import NotFoundPage from '../views/NotFoundPage';
 
 Vue.use(VueRouter);
 
 export const router = new VueRouter({
   mode: 'history',
-  base: '/04-spa/02-NotFound',
+  base: '/04-SPA/03-NotFound',
   routes: [
     {
       path: '/page-a',
@@ -17,6 +17,10 @@ export const router = new VueRouter({
     {
       path: '/page-b',
       component: PageB,
+    },
+    {
+      path: '*',
+      component: NotFoundPage,
     },
   ],
 });

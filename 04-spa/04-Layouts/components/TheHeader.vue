@@ -1,8 +1,16 @@
-<template></template>
+<template>
+  <header class="header">
+    <h1><a href="/04-spa/04-Layouts/">Meetups</a></h1>
+    <nav>
+      <router-link :to="{ name: 'login'}">Вход</router-link>     
+      <router-link :to="{ name: 'form'}">Создать митап</router-link>
+    </nav>
+    </header>
+</template>
 
 <script>
 export default {
-  name: 'TheHeader',
+  name: 'TheHeader',  
 };
 </script>
 

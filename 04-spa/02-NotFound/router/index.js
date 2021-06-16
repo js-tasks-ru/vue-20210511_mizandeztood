@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 
 export const router = new VueRouter({
   mode: 'history',
-  base: '/04-SPA/03-NotFound',
+  base: '/04-spa/02-NotFound',
   routes: [
     {
       path: '/page-a',

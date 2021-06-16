@@ -1,8 +1,23 @@
-<template></template>
+<template>
+ <div id="app">
+    <the-header></the-header>
+    <main> 
+      <slot></slot>
+    </main>
+    <the-footer></the-footer>
+  </div>
+</template>
 
 <script>
+import TheHeader from './TheHeader.vue';
+import TheFooter from './TheFooter.vue';
+
 export default {
-  name: 'BaseLayout',
+  name: 'BaseLayout',  
+  components: {
+    TheHeader,
+    TheFooter,
+  }
 };
 </script>
 

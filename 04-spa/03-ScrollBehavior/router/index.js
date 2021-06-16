@@ -68,5 +68,5 @@ export const router = new VueRouter({
         },
       ],
     },
-  ],
+  ]
 });
